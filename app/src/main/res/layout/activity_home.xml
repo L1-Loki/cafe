@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.HomeActivity"
+    tools:openDrawer="start"><!--tools:openDrawer="start" -->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:navigationIcon="@drawable/ic_baseline_menu_24"
+            app:titleTextColor="@color/lightwhite" />
+
+        <FrameLayout
+            android:id="@+id/contentView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!--        frame này là cái sẽ chứa nội dung chức năng chính   -->
+
+    </LinearLayout>
+
+
+    <!-- đây là cái navigation, được tạo thành với 2 thành phần con:
+        menu  (res/menu/main_menu_navigation)
+        menu header (res/layout/menu_navigation_header)
+    -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view_trangchu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/lightwhite"
+        android:theme="@style/navigationTheme"
+        app:headerLayout="@layout/menu_navigation_header"
+        app:menu="@menu/main_menu_navigation" />
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

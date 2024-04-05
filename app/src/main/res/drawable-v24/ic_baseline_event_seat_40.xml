@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Table Top -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M4,6h16v1H4V6zM4,8h16v1H4V8zM4,10h16v1H4V10z" />
+
+    <!-- Table Legs -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M6,11h2v6H6V11zM16,11h2v6h-2V11z" />
+
+</vector>
