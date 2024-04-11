@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +29,6 @@ import java.util.Calendar;
 import java.util.List;
 
 public class AdapterDisplayTable extends BaseAdapter implements View.OnClickListener {
-
     Context context;
     int layout;
     List<BanDTO> banAnDTOList;
@@ -37,13 +37,13 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
     HoaDonDAO donDatDAO;
     FragmentManager fragmentManager;
 
-    public AdapterDisplayTable(Context context, int layout, List<BanDTO> banAnDTOList) {
+    public AdapterDisplayTable(Context context, int layout, List<BanDTO> banAnDTOList){
         this.context = context;
         this.layout = layout;
         this.banAnDTOList = banAnDTOList;
         banAnDAO = new BanDAO(context);
         donDatDAO = new HoaDonDAO(context);
-        fragmentManager = ((HomeActivity) context).getSupportFragmentManager();
+        fragmentManager = ((HomeActivity)context).getSupportFragmentManager();
     }
 
     @Override
@@ -65,9 +65,10 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
+        ViewHolder viewHolder;
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             viewHolder = new ViewHolder();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(layout, parent, false);
 
             viewHolder.imgBanAn = (ImageView) view.findViewById(R.id.img_customtable_BanAn);
@@ -75,15 +76,15 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
             viewHolder.imgThanhToan = (ImageView) view.findViewById(R.id.img_customtable_ThanhToan);
             viewHolder.imgAnNut = (ImageView) view.findViewById(R.id.img_customtable_AnNut);
             viewHolder.txtTenBanAn = (TextView) view.findViewById(R.id.txt_customtable_TenBanAn);
-
+            viewHolder.cardView = view.findViewById(R.id.cardview);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
         if (banAnDTOList.get(position).isDuocChon()) {
-            HienThiButton();
+            HienThiButton(viewHolder);
         } else {
-            AnButton();
+            AnButton(viewHolder);
         }
 
         BanDTO banAnDTO = banAnDTOList.get(position);
@@ -98,9 +99,23 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
 
         viewHolder.txtTenBanAn.setText(banAnDTO.getTenBan());
         viewHolder.imgBanAn.setTag(position);
+        viewHolder.imgBanAn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Thực hiện thay đổi trạng thái hiển thị của các ImageView dưới CardView
+                if (viewHolder.imgGoiMon.getVisibility() == View.VISIBLE) {
+                    AnButton(viewHolder);
+                } else {
+                    HienThiButton(viewHolder);
+                }
+            }
+        });
 
         //sự kiện click
-        viewHolder.imgBanAn.setOnClickListener(this);
+        viewHolder.imgGoiMon.setTag(position);
+        viewHolder.imgThanhToan.setTag(position);
+        viewHolder.imgAnNut.setTag(position);
+
         viewHolder.imgGoiMon.setOnClickListener(this);
         viewHolder.imgThanhToan.setOnClickListener(this);
         viewHolder.imgAnNut.setOnClickListener(this);
@@ -111,12 +126,10 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        viewHolder = (ViewHolder) ((View) v.getParent()).getTag();
-
-        int vitri1 = (int) viewHolder.imgBanAn.getTag();
-
-        int maban = banAnDTOList.get(vitri1).getMaBan();
-        String tenban = banAnDTOList.get(vitri1).getTenBan();
+        int position = (int) v.getTag();
+        ViewHolder viewHolder = (ViewHolder) ((View) v.getParent()).getTag();
+        int maban = banAnDTOList.get(position).getMaBan();
+        String tenban = banAnDTOList.get(position).getTenBan();
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String ngaydat = dateFormat.format(calendar.getTime());
@@ -124,9 +137,9 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
         if (id == R.id.img_customtable_BanAn) {
             int vitri = (int) v.getTag();
             banAnDTOList.get(vitri).setDuocChon(true);
-            HienThiButton();
+            HienThiButton(viewHolder);
         } else if (id == R.id.img_customtable_AnNut) {
-            AnButton();
+            AnButton(viewHolder);
         } else if (id == R.id.img_customtable_GoiMon) {
             Intent getIHome = ((HomeActivity) context).getIntent();
             int manv = getIHome.getIntExtra("manv", 0);
@@ -167,21 +180,21 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
         }
 
     }
-
-    private void HienThiButton() {
+    private void HienThiButton(ViewHolder viewHolder) {
         viewHolder.imgGoiMon.setVisibility(View.VISIBLE);
         viewHolder.imgThanhToan.setVisibility(View.VISIBLE);
         viewHolder.imgAnNut.setVisibility(View.VISIBLE);
     }
 
-    private void AnButton() {
+    private void AnButton(ViewHolder viewHolder) {
         viewHolder.imgGoiMon.setVisibility(View.INVISIBLE);
         viewHolder.imgThanhToan.setVisibility(View.INVISIBLE);
         viewHolder.imgAnNut.setVisibility(View.INVISIBLE);
     }
 
-    public class ViewHolder {
+    public class ViewHolder{
         ImageView imgBanAn, imgGoiMon, imgThanhToan, imgAnNut;
         TextView txtTenBanAn;
+        RelativeLayout cardView;
     }
 }

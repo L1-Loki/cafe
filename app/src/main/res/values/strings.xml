@@ -28,6 +28,8 @@
     <string name="addMenu">Thêm thực đơn</string>
     <string name="addmenu">Thêm <br /> thực đơn</string>
     <string name="addCategory">Thêm loại</string>
+    <string name="Switch_Table">Gộp bàn</string>
+    <string name="Combine_Table">Chuyển bàn</string>
     <string name="addcategory">Thêm <br /> loại</string>
     <string name="editcategory">Sửa <br /> loại</string>
     <string name="choseimg">Chọn hình</string>

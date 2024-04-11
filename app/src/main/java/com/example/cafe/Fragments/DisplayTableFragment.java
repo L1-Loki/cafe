@@ -74,15 +74,14 @@ public class DisplayTableFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.displaytable_layout,container,false);
-        setHasOptionsMenu(true);
         ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Quản lý bàn");
+        setHasOptionsMenu(true);
 
         GVDisplayTable = (GridView)view.findViewById(R.id.gvDisplayTable);
         banAnDAO = new BanDAO(getActivity());
-
         HienThiDSBan();
-
         registerForContextMenu(GVDisplayTable);
+
         return view;
     }
 
@@ -92,7 +91,6 @@ public class DisplayTableFragment extends Fragment {
         super.onCreateContextMenu(menu, v, menuInfo);
         getActivity().getMenuInflater().inflate(R.menu.edit_context_menu,menu);
     }
-
     //Xử lí cho từng trường hợp trong contextmenu
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -100,6 +98,7 @@ public class DisplayTableFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int vitri = menuInfo.position;
         int maban = banAnDTOList.get(vitri).getMaBan();
+
         if (id == R.id.itEdit) {
             Intent intent = new Intent(getActivity(), EditTableActivity.class);
             intent.putExtra("maban", maban);

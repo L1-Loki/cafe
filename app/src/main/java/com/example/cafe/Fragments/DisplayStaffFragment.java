@@ -76,7 +76,6 @@ public class DisplayStaffFragment extends Fragment {
         HienThiDSNV();
 
         registerForContextMenu(gvStaff);
-
         return view;
     }
 

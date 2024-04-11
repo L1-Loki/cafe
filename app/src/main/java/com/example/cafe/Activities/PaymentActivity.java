@@ -77,6 +77,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
                 tongtien += (soluong * giatien);
             }
             TXT_payment_TongTien.setText(String.valueOf(tongtien) +" VNĐ");
+
         }
 
         BTN_payment_ThanhToan.setOnClickListener(this);
